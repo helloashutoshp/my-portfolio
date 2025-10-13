@@ -1,5 +1,6 @@
 import React from 'react';
 import './Hero.css';
+import profileImage from '../assets/Profile.jpg';
 
 const Hero = () => {
   return (
@@ -8,7 +9,7 @@ const Hero = () => {
         <div className="hero-image-section">
           <div className="profile-image-wrapper">
             <img
-              src="/Images/Profile.jpg"
+              src={profileImage}
               alt="Ashutosh Pradhan"
               className="profile-image"
             />
