@@ -44,7 +44,7 @@ const Hero = () => {
           <div className="hero-actions">
             <a href="#contact" className="cta-button primary">Get In Touch</a>
             <div className="hero-links">
-              <a href="https://www.linkedin.com/in/ashutosh-pradhan-ba8b97327/" target="_blank" rel="noopener noreferrer" className="social-link" title="LinkedIn">
+              <a href="https://www.linkedin.com/in/ashutosh-pradhan-ba8b97237/" target="_blank" rel="noopener noreferrer" className="social-link" title="LinkedIn">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
