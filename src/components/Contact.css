@@ -68,19 +68,36 @@
   margin-top: 1rem;
 }
 
-.social-icon {
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.social-link {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #667eea;
   text-decoration: none;
-  border-radius: 25px;
-  font-weight: 500;
+  border-radius: 50%;
   transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border: 2px solid #667eea;
 }
 
-.social-icon:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+.social-link:hover {
+  background: #667eea;
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.social-link:hover .social-icon path {
+  stroke: white;
+}
+
+.social-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .contact-form {
