@@ -29,7 +29,7 @@ const Education = () => {
     {
       title: 'PHP Trainee Certifcate',
       organization: 'Concent Infoway Pvt. Ltd.',
-      duration: '4 months',
+      duration: '6 months',
       period: 'Jan 2024 - July 2024',
       url: trainee,
       linkText: 'trainee'
