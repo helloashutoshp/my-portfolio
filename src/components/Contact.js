@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 const Contact = () => {
@@ -9,7 +10,9 @@ const Contact = () => {
     message: ''
   });
 
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useRef();
 
   const handleChange = (e) => {
     setFormData({
@@ -23,31 +26,65 @@ const Contact = () => {
     
     // Simple validation
     if (!formData.name || !formData.email || !formData.message) {
-      setStatus('Please fill in all required fields.');
+      setStatus({ type: 'error', message: 'Please fill in all required fields.' });
       return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setStatus('Please enter a valid email address.');
+      setStatus({ type: 'error', message: 'Please enter a valid email address.' });
       return;
     }
 
-    // Here you would typically send the form data to a backend
-    // For now, we'll just show a success message
-    setStatus('Thank you for your message! I will get back to you soon.');
+    setIsLoading(true);
     
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    // Prepare template parameters
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      to_email: 'ashutoshpradhan200210@gmail.com',
+      subject: formData.subject || 'New message from portfolio contact form',
+      message: formData.message,
+      reply_to: formData.email
+    };
 
-    // Clear status after 5 seconds
-    setTimeout(() => setStatus(''), 5000);
+    // Send email using EmailJS
+    emailjs.send(
+      process.env.REACT_APP_EMAILJS_SERVICE_ID,
+      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      templateParams,
+      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+    )
+    .then((response) => {
+      console.log('Email sent successfully!', response.status, response.text);
+      setStatus({ 
+        type: 'success', 
+        message: 'Thank you for your message! I will get back to you soon.' 
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    })
+    .catch((error) => {
+      console.error('Failed to send email:', error);
+      setStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please try again later or contact me directly at ashutoshpradhan200210@gmail.com' 
+      });
+    })
+    .finally(() => {
+      setIsLoading(false);
+      // Clear status after 10 seconds
+      setTimeout(() => {
+        setStatus({ type: '', message: '' });
+      }, 10000);
+    });
   };
 
   return (
@@ -109,60 +146,65 @@ const Contact = () => {
             </div>
           </div>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name *"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email *"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                value={formData.subject}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <textarea
-                name="message"
-                placeholder="Your Message *"
-                rows="6"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              ></textarea>
-            </div>
-
-            {status && (
-              <div className={`form-status ${status.includes('Thank you') ? 'success' : 'error'}`}>
-                {status}
+          <div className="contact-form">
+            <form ref={form} onSubmit={handleSubmit} className="form">
+              {status.message && (
+                <div className={`form-status ${status.type}`}>
+                  {status.message}
+                </div>
+              )}
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name *"
+                  value={formData.name}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                />
               </div>
-            )}
-
-            <button type="submit" className="submit-button">
-              Send Message
-            </button>
-          </form>
+              <div className="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email *"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="form-group">
+                <textarea
+                  name="message"
+                  placeholder="Your Message *"
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                ></textarea>
+              </div>
+              <button 
+                type="submit" 
+                className={`submit-btn ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
