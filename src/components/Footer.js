@@ -11,7 +11,7 @@ const Footer = () => {
           © {currentYear} Ashutosh Pradhan. All rights reserved.
         </p>
         <div className="footer-links">
-          <a href="https://www.linkedin.com/in/ashutosh-pradhan-ba8b97327/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/ashutosh-pradhan-ba8b97237/" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
           <a href="https://github.com/helloashutoshp" target="_blank" rel="noopener noreferrer">
