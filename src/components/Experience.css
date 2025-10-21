@@ -1,118 +1,381 @@
 .experience {
   padding: 5rem 2rem;
-  background: #f8f9fa;
-}
-
-.timeline {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   position: relative;
-  max-width: 900px;
-  margin: 3rem auto 0;
-  padding-left: 2rem;
 }
 
-.timeline::before {
+.experience-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+.accordion-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.accordion-item {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+
+.accordion-item.active {
+  border-color: var(--accent-color);
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem; /* Increased padding */
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.accordion-header::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  width: 5px;
+  background: var(--accent-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.timeline-item {
-  position: relative;
-  margin-bottom: 3rem;
-  padding-left: 2rem;
+.accordion-item.active .accordion-header::before {
+  opacity: 1;
 }
 
-.timeline-marker {
-  position: absolute;
-  left: -0.6rem;
-  top: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: white;
-  border: 3px solid #667eea;
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px #f8f9fa;
+.accordion-header:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
 }
 
-.timeline-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.accordion-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
 }
 
-.timeline-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+.accordion-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.accordion-item:hover .accordion-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.accordion-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.experience-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .company-name {
-  font-size: 1.5rem;
-  color: #2d3748;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 700;
+}
+
+.experience-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .period {
-  color: #667eea;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.meta-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.job-type {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: var(--type-color);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .position {
-  color: #4a5568;
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  font-style: italic;
+  color: #475569;
+  font-size: 1.15rem;
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.position::before {
+  content: '👨‍💻';
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+
+.accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.1);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.accordion-toggle:hover {
+  background: rgba(102, 126, 234, 0.2);
+  transform: scale(1.1);
+}
+
+.toggle-icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+  color: #667eea;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item.active .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item.active .accordion-content {
+  max-height: 2000px;
+}
+
+.responsibilities {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
 }
 
 .responsibility-section {
-  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.responsibility-section:last-child {
+  margin-bottom: 0;
 }
 
 .responsibility-title {
-  color: #764ba2;
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-  font-weight: 600;
+  color: #1e293b;
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.resp-icon {
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .responsibility-list {
   list-style: none;
   padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .responsibility-list li {
-  color: #4a5568;
-  line-height: 1.8;
-  margin-bottom: 0.8rem;
-  padding-left: 1.5rem;
+  color: #475569;
+  line-height: 1.7;
+  padding-left: 2rem;
   position: relative;
+  font-size: 0.98rem;
+  transition: all 0.3s ease;
 }
 
-.responsibility-list li::before {
-  content: '▹';
+.responsibility-list li:hover {
+  color: #1e293b;
+  transform: translateX(5px);
+}
+
+.bullet-point {
   position: absolute;
   left: 0;
-  color: #667eea;
-  font-weight: bold;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
 }
 
-@media (max-width: 768px) {
-  .timeline {
-    padding-left: 1.5rem;
+.bullet-point::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  .timeline-item {
-    padding-left: 1.5rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+@media (max-width: 968px) {
+  .accordion-content {
+    padding: 0 2.5rem 2rem;
+  }
+
+  .accordion-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .responsibilities {
+    padding: 1.5rem;
+  }
+
   .company-name {
     font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .experience {
+    padding: 3rem 1rem;
+  }
+
+  .accordion-container {
+    gap: 1rem;
+  }
+
+  .accordion-header {
+    padding: 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .accordion-header-left {
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .accordion-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .accordion-toggle {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 35px;
+    height: 35px;
+  }
+
+  .toggle-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .company-name {
+    font-size: 1.2rem;
+  }
+
+  .position {
+    font-size: 1rem;
+  }
+
+  .experience-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .responsibilities {
+    padding: 1.2rem;
+  }
+
+  .responsibility-title {
+    font-size: 1rem;
+  }
+
+  .responsibility-list li {
+    font-size: 0.9rem;
+    padding-left: 1.5rem;
   }
 }
