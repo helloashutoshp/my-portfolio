@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useState } from 'react';
 import './Contact.css';
 
 const Contact = () => {
@@ -12,7 +11,6 @@ const Contact = () => {
 
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const form = useRef();
 
   const handleChange = (e) => {
     setFormData({
@@ -39,40 +37,39 @@ const Contact = () => {
 
     setIsLoading(true);
     
-    // Prepare template parameters
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      to_email: 'ashutoshpradhan200210@gmail.com',
-      subject: formData.subject || 'New message from portfolio contact form',
-      message: formData.message,
-      reply_to: formData.email
-    };
-
-    // Send email using EmailJS
-    emailjs.send(
-      process.env.REACT_APP_EMAILJS_SERVICE_ID,
-      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-      templateParams,
-      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-    )
-    .then((response) => {
-      console.log('Email sent successfully!', response.status, response.text);
-      setStatus({ 
-        type: 'success', 
-        message: 'Thank you for your message! I will get back to you soon.' 
-      });
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
+    // FormSubmit will handle the submission
+    // The form's action attribute is set to the FormSubmit endpoint
+    // and will handle the submission automatically
+    
+    // We'll still need to handle the form submission to show status messages
+    const form = e.target;
+    
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
     })
-    .catch((error) => {
-      console.error('Failed to send email:', error);
+    .then(response => {
+      if (response.ok) {
+        setStatus({ 
+          type: 'success', 
+          message: 'Thank you for your message! I will get back to you soon.' 
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    })
+    .catch(error => {
+      console.error('Form submission error:', error);
       setStatus({ 
         type: 'error', 
         message: 'Failed to send message. Please try again later or contact me directly at ashutoshpradhan200210@gmail.com' 
@@ -147,7 +144,12 @@ const Contact = () => {
           </div>
 
           <div className="contact-form">
-            <form ref={form} onSubmit={handleSubmit} className="form">
+            <form 
+              action="https://formsubmit.co/ashutoshpradhan200210@gmail.com" 
+              method="POST"
+              onSubmit={handleSubmit} 
+              className="form"
+            >
               {status.message && (
                 <div className={`form-status ${status.type}`}>
                   {status.message}
