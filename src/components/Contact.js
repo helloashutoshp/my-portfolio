@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './Contact.css';
 
 const Contact = () => {
@@ -11,6 +11,7 @@ const Contact = () => {
 
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const formRef = useRef();
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +20,7 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Simple validation
@@ -37,26 +38,29 @@ const Contact = () => {
 
     setIsLoading(true);
     
-    // FormSubmit will handle the submission
-    // The form's action attribute is set to the FormSubmit endpoint
-    // and will handle the submission automatically
-    
-    // We'll still need to handle the form submission to show status messages
-    const form = e.target;
-    
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => {
+    try {
+      // Log form data for debugging
+      console.log('Submitting form with data:', formData);
+      
+      const response = await fetch(formRef.current.action, {
+        method: 'POST',
+        body: new FormData(formRef.current),
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
+        const responseData = await response.text();
+        console.log('Response data:', responseData);
+        
         setStatus({ 
           type: 'success', 
-          message: 'Thank you for your message! I will get back to you soon.' 
+          message: 'Message sent successfully! Please check your email for a confirmation.' 
         });
+        
         // Reset form
         setFormData({
           name: '',
@@ -65,23 +69,23 @@ const Contact = () => {
           message: ''
         });
       } else {
-        throw new Error('Form submission failed');
+        const errorData = await response.text();
+        console.error('Form submission failed with status:', response.status, 'Data:', errorData);
+        throw new Error(`Server responded with status: ${response.status}`);
       }
-    })
-    .catch(error => {
+    } catch (error) {
       console.error('Form submission error:', error);
       setStatus({ 
         type: 'error', 
-        message: 'Failed to send message. Please try again later or contact me directly at ashutoshpradhan200210@gmail.com' 
+        message: 'Failed to send message. Please try again later or email me directly at ashutoshpradhan200210@gmail.com' 
       });
-    })
-    .finally(() => {
+    } finally {
       setIsLoading(false);
       // Clear status after 10 seconds
       setTimeout(() => {
         setStatus({ type: '', message: '' });
       }, 10000);
-    });
+    }
   };
 
   return (
@@ -145,11 +149,17 @@ const Contact = () => {
 
           <div className="contact-form">
             <form 
+              ref={formRef}
               action="https://formsubmit.co/ashutoshpradhan200210@gmail.com" 
               method="POST"
               onSubmit={handleSubmit} 
               className="form"
             >
+              {/* Hidden fields for FormSubmit */}
+              <input type="hidden" name="_subject" value="New message from portfolio contact form" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_next" value={window.location.href} />
+              <input type="hidden" name="_template" value="table" />
               {status.message && (
                 <div className={`form-status ${status.type}`}>
                   {status.message}
