@@ -21,7 +21,7 @@ const Education = () => {
       degree: '10th',
       institution: 'Saraswati Shisu Vidya Mandir, ShivajiMarg',
       year: '2018',
-      percentage: '93%'
+      percentage: '75%'
     }
   ];
 

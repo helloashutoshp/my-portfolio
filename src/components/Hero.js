@@ -27,9 +27,9 @@ const Hero = () => {
           </div>
 
           <div className="hero-contact">
-            <a href="tel:+919090245081" className="contact-item">
+            <a href="tel:+919090245091" className="contact-item">
               <span className="icon">📞</span>
-              <span>+91-9090245081</span>
+              <span>+91-9090245091</span>
             </a>
             <a href="mailto:ashutoshshradhan200210@gmail.com" className="contact-item">
               <span className="icon">✉️</span>
